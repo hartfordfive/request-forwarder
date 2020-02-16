@@ -10,7 +10,7 @@ BUILD_DIR=build/
 GITHASH=$(git rev-parse --verify HEAD)
 BUILDDATE=$(date +%Y-%m-%d)
 VERSION=$(shell sh -c 'cat VERSION.txt')
-PACKAGE_BASE="github.com/hartfordfive/prometheus-ldap-sd"
+PACKAGE_BASE="github.com/hartfordfive/request-forwarder"
 
 ifeq ($(UNAME), Linux)
 	OS=linux
@@ -28,10 +28,10 @@ all: cleanall buildall
 
 # Cross compilation
 build:
-	CGO_ENABLED=0 GOOS=${OS} GOARCH=${ARCH} $(GOBUILD) -ldflags "-s -w -X ${PACKAGE_BASE}/version.CommitHash=${GITHASH} -X ${PACKAGE_BASE}/version.BuildDate=${BUILDDATE} -X ${PACKAGE_BASE}/version.Version=${VERSION}" -o ${BUILD_DIR}$(BINARY_UNIX) -v
+	CGO_ENABLED=0 GOOS=${OS} GOARCH=${ARCH} $(GOBUILD) -ldflags "-s -w -X ${PACKAGE_BASE}/version.CommitHash=${GITHASH} -X ${PACKAGE_BASE}/version.BuildDate=${BUILDDATE} -X ${PACKAGE_BASE}/version.Version=${VERSION}" -o ${BUILD_DIR}$(BINARY_NAME) -v
 
 build-debug:
-	CGO_ENABLED=0 GOOS=${OS} GOARCH=amd64 $(GOBUILD) -ldflags "-X ${PACKAGE_BASE}/version.CommitHash=${GITHASH} -X ${PACKAGE_BASE}/version.BuildDate=${BUILDDATE} -X ${PACKAGE_BASE}/version.Version=${VERSION}" -o ${BUILD_DIR}$(BINARY_UNIX) -v
+	CGO_ENABLED=0 GOOS=${OS} GOARCH=amd64 $(GOBUILD) -ldflags "-X ${PACKAGE_BASE}/version.CommitHash=${GITHASH} -X ${PACKAGE_BASE}/version.BuildDate=${BUILDDATE} -X ${PACKAGE_BASE}/version.Version=${VERSION}" -o ${BUILD_DIR}$(BINARY_NAME) -v
 
 test: 
 	$(GOTEST) -v ./...
@@ -39,11 +39,9 @@ test:
 clean: 
 	$(GOCLEAN)
 	rm -rf ${BUILD_DIR}
-	rm -rf modules/*
 
 cleanplugins:
 	$(GOCLEAN)
-	rm -rf modules/*
 
 cleanall: clean cleanplugins
 
