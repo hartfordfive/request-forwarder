@@ -31,7 +31,7 @@ Flags:
 
 Example:
 ----
-This will 
+This will start the process to listen on *:8080 and rewrite requests to 127.0.0.1:8500
 ```
 ./request-forwarder -a 0.0.0.0 -ra localdev -rp 8500 -w get,head 
 ```
