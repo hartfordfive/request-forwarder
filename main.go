@@ -14,10 +14,14 @@ func main() {
 	var flagAddr = flag.String("a", "127.0.0.1", "The local address to listen on.")
 	var flagPort = flag.Int("p", 8080, "The local port to listen on.")
 	var flagRemoteAddr = flag.String("ra", "127.0.0.1", "The remoate address to bind to.")
-	var flagRemotePort = flag.Int("rp", 8500, "The remote port to bind to.")
+	var flagRemotePort = flag.Int("rp", 0, "The remote port to bind to.")
 	var flagMetricsPort = flag.Int("m", 9555, "The port on which to expose Prometheus metrics.")
 	var flagAllowedMethods = flag.String("w", "", "Comma separated list of allowed methods. Empty means all.")
 	flag.Parse()
+
+	if *flagRemotePort < 1 {
+		log.Fatal("The remote port flag (-rp) must be specified with a non-zero value!")
+	}
 
 	hostport := fmt.Sprintf("%s:%d", *flagAddr, *flagPort)
 	prometheusHostport := fmt.Sprintf("%s:%d", *flagAddr, *flagMetricsPort)

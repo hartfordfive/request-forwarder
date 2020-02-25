@@ -87,7 +87,7 @@ func (p *proxy) ServeHTTP(wr http.ResponseWriter, inReq *http.Request) {
 		lib.AppendHostToXForwardHeader(req.Header, clientIP)
 	}
 
-	// Check if the method is in the list of AllowdMethods
+	// Check if the HTTP method is in the list of allowed methods
 	if _, exists := lib.ExistsInSlice(p.AllowdMethods, inReq.Method); !exists {
 		msg := fmt.Sprintf("HTTP method %s not allowed", inReq.Method)
 		http.Error(wr, msg, http.StatusBadRequest)

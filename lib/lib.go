@@ -45,7 +45,7 @@ func AppendHostToXForwardHeader(header http.Header, host string) {
 	header.Set("X-Forwarded-For", host)
 }
 
-// ExistsInSlice ...
+// ExistsInSlice verifies if the given string exists in the slice
 func ExistsInSlice(slice []string, val string) (int, bool) {
 	for i, item := range slice {
 		if item == val {
